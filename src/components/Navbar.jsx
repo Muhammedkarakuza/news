@@ -10,7 +10,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="static" color="primary">
         <Toolbar>
           <Typography
             variant="h6"
@@ -18,10 +18,19 @@ export default function Navbar() {
             sx={{ flexGrow: 1, cursor: "pointer" }}
             onClick={() => navigate("/")}
           >
-            Clarusway News
+            Zucker News
           </Typography>
 
-          <Button color="inherit">Login</Button>
+          <Button
+            color="inherit"
+            sx={{
+              border: 2,
+              borderRadius: 5,
+              "&:hover": { backgroundColor: "#1947d2" },
+            }}
+          >
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
