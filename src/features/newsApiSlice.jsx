@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {};
 
 const newsApiSlice = createSlice({
-  name: second,
+  name: "newsApi",
   initialState,
   reducers: {},
 });

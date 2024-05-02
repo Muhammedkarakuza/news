@@ -7,4 +7,6 @@ export const store = configureStore({
     auth: authReducer,
     newsApi: newsReducer,
   },
+  devTools: process.env.NODE_ENV !== "production",
+  //? eger gelistirme asamasi production ise devtool kullanima kapali olur
 });

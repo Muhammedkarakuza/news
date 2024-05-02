@@ -5,9 +5,16 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { clearUser } from "../features/authSlice";
+import { useDispatch } from "react-redux";
 export default function Navbar() {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(clearUser());
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
@@ -20,17 +27,32 @@ export default function Navbar() {
           >
             Zucker News
           </Typography>
-
-          <Button
-            color="inherit"
-            sx={{
-              border: 2,
-              borderRadius: 5,
-              "&:hover": { backgroundColor: "#1947d2" },
-            }}
-          >
-            Login
-          </Button>
+          {user.email && user.password && (
+            <Button
+              onClick={() => handleLogout()}
+              color="inherit"
+              sx={{
+                border: 2,
+                borderRadius: 5,
+                "&:hover": { backgroundColor: "#1947d2" },
+              }}
+            >
+              Logout
+            </Button>
+          )}
+          {!user.email ||
+            (!user.password && (
+              <Button
+                color="inherit"
+                sx={{
+                  border: 2,
+                  borderRadius: 5,
+                  "&:hover": { backgroundColor: "#1947d2" },
+                }}
+              >
+                Login
+              </Button>
+            ))}
         </Toolbar>
       </AppBar>
     </Box>
