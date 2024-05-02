@@ -5,11 +5,33 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
-
+import { useEffect } from "react";
+import { clearNewsData, getNewsData } from "../features/newsApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import loadingGif from "../assets/loading.gif";
 const News = () => {
+  const dispatch = useDispatch();
+  const { newsData, error, loading } = useSelector((state) => state.newsApi);
+  useEffect(() => {
+    dispatch(getNewsData());
+    //? News componenti DOM'dan kaldırılınca (unmount) glabal state'teki verileri silecek dispatch yayınlanması
+    return () => {
+      dispatch(clearNewsData());
+    };
+  }, []);
+
   return (
     <>
       <h1>NEWS</h1>
+      <Box display="flex" alignItems="center" justifyContent="center">
+        {loading && <img src={loadingGif} />}
+        {error && (
+          <Typography align="center" color="error" variant="h3">
+            Data can not be fetched
+          </Typography>
+        )}
+      </Box>
+
       <Box
         xs={{ d: "flex" }}
         display="flex"
@@ -17,7 +39,7 @@ const News = () => {
         justifyContent="space-evenly"
         flexWrap="wrap"
       >
-        {[1, 2, 3].map((item, index) => (
+        {newsData.map((item, index) => (
           <Card sx={{ maxWidth: 345, m: 5, maxHeight: 600 }} key={index}>
             <CardMedia
               component="img"
@@ -34,9 +56,18 @@ const News = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small" href={item?.url} target="_blank">
-                Detail
+              <Button
+                sx={{
+                  borderRadius: 12,
+                  width: 1,
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                }}
+                size="small"
+                href={item?.url}
+                target="_blank"
+              >
+                Read More
               </Button>
             </CardActions>
           </Card>

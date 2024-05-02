@@ -5,9 +5,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../features/authSlice";
-import { useDispatch } from "react-redux";
+
 export default function Navbar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -40,19 +40,18 @@ export default function Navbar() {
               Logout
             </Button>
           )}
-          {!user.email ||
-            (!user.password && (
-              <Button
-                color="inherit"
-                sx={{
-                  border: 2,
-                  borderRadius: 5,
-                  "&:hover": { backgroundColor: "#1947d2" },
-                }}
-              >
-                Login
-              </Button>
-            ))}
+          {(!user.email || !user.password) && (
+            <Button
+              color="inherit"
+              sx={{
+                border: 2,
+                borderRadius: 5,
+                "&:hover": { backgroundColor: "#1947d2" },
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
